@@ -1,28 +1,6 @@
-# TODO: load deployment url from env, and connect to certbot:clouflare or self 
-# signed cert as needed
-#
-# TODO: configure nginx to forward to api or web app based on url path
-#
-# TODO: get sji-bdl-web and sji-bdl-api on Docker Hub
-
 version: '3'
 
 services:
-#  nginx:
-#    image: nginx:1.15-alpine
-#    ports:
-#      - "80:80"
-#      - "443:443"
-#    volumes:
-#      - ./data/nginx:/etc/nginx/conf.d
-#      - ./data/certbot/conf:/etc/letsencrypt
-#      - ./data/certbot/www:/var/www/certbot
-#
-#  certbot:
-#    image: certbot/certbot
-#    volumes:
-#      - ./data/certbot/conf:/etc/letsencrypt
-#      - ./data/certbot/www:/var/www/certbot
 
   sji-bdl-client:
     image: ${IMAGE_SERVER:-docker.io}/stjamesinfirmary/sji-bdl-client
@@ -30,7 +8,7 @@ services:
     restart: unless-stopped
     env_file: .env
     environment:
-      - PORT=${CLIENT_PORT:-3000}
+      - CLIENT_PORT=${CLIENT_PORT:-3000}
     ports:
       - "${CLIENT_PORT:-3000}:${CLIENT_PORT:-3000}"
     networks:
@@ -47,14 +25,15 @@ services:
     restart: unless-stopped
     env_file: .env
     environment:
+      - API_PORT=${API_PORT:-3001}
       - MONGO_USERNAME=${MONGO_USERNAME:-admin}
       - MONGO_PASSWORD=${MONGO_PASSWORD:-admin}
       - MONGO_HOSTNAME=db
       - MONGO_PORT=${MONGO_PORT:-27017}
       - MONGO_DB=${MONGO_DB:-sji-bdl}
-      - PORT=${API_PORT:-3001}
-    ports:
-      - "${API_PORT:-3001}:${API_PORT:-3001}"
+    # We will need to make this publicly accessible when we have mobile clients
+    expose:
+      - ${API_PORT:-3001}
     networks:
       - app-network
     command: ./wait-for.sh db:${MONGO_PORT:-27017} -- node index.js
