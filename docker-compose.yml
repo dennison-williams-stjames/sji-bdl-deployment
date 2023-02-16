@@ -12,6 +12,7 @@ services:
     env_file: .env
     environment:
       - CLIENT_PORT=${CLIENT_PORT:-3000}
+      - API_SERVER=${API_SERVER:-http://localhost:3001}
     ports:
       - "${CLIENT_PORT:-3000}:${CLIENT_PORT:-3000}"
     networks:
