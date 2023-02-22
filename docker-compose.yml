@@ -60,6 +60,8 @@ services:
       - MONGO_INITDB_USERNAME=${MONGO_USERNAME:-sji-bdl}
       - MONGO_INITDB_PASSWORD=${MONGO_PASSWORD:-sji-bdl}
       - MONGO_INITDB_DATABASE=${MONGO_DB:-sji-bdl}
+      - BDL_USERNAME=${BDL_USERNAME:-sysadmin@stjamesinfirmary.org}
+      - BDL_HASH=${BDL_HASH}
     volumes:  
       - dbdata:/data/db   
       # This references hardcoded values for usernames and databases
