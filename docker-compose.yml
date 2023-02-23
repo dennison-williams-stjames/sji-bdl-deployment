@@ -50,10 +50,6 @@ services:
     container_name: db
     restart: unless-stopped
     env_file: .env
-    expose: 
-      - ${MONGO_PORT:-27017}
-    ports:
-      - "27017:${MONGO_PORT:-27017}"
     environment:
       - MONGO_INITDB_ROOT_USERNAME=${MONGO_ROOT_USER:-admin}
       - MONGO_INITDB_ROOT_PASSWORD=${MONGO_ROOT_PASS:-admin}
