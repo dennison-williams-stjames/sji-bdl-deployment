@@ -10,5 +10,5 @@ pass="${MONGO_PASSWORD:=sji-bdl}"
 date=`date "+%H"`
 long_date=`date "+%Y%m%d%H"`
 backup_name="/data/db/${db}.${date}"
-local_backup_name="${LOCAL_PATH}/${db}"
-/usr/bin/docker exec db sh -c "exec mongodump -d ${db} -u ${user} --password=${pass} --archive" > $local_bakup_name
+local_backup_name="${LOCAL_PATH}/${db}.archive.gz"
+/usr/bin/docker exec db sh -c "exec mongodump -d ${db} -u ${user} --password=${pass} --archive --gzip" > $local_backup_name
